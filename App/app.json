@@ -1,0 +1,40 @@
+{
+  "expo": {
+    "name": "TrailersApp",
+    "slug": "TrailersApp",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "jsEngine": "jsc",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.trailersapp.trailersapp"
+    },
+    "android": {
+      "package": "com.trailersapp.trailersapp",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "scheme": "trailersapp",
+    "platforms": ["ios", "android", "web"],
+    "extra": {
+      "expoClientId": "929893510176-d3avt85c9telvhdf90gpirjh0p693gmh.apps.googleusercontent.com",
+      "iosClientId": "929893510176-l3dg5r21u92ojigabjt9jvkfbejj5dm2.apps.googleusercontent.com",
+      "androidClientId": "929893510176-aorkv8e3odjkcd7thekqikb6guvalt7s.apps.googleusercontent.com",
+      "eas": {
+        "projectId": "293b41e9-23e5-470d-92fd-1aae60df71a7"
+      }
+    }
+  }
+}
