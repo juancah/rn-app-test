@@ -33,6 +33,17 @@ registerRootComponent(App);
 el código es casi lo mismo que el código de Expo pero se agregó `expo/metro-runtime` para que haga fast refresh en web.
 normalmente se utiliza expo-router en vez de @react-navigation porque funciona mejor con expo y ya tiene esto configurado por default.
 
+y luego lo pones al package.json
+
+### package.json:
+```json
+{
+  ...
+  "main": "./entry.js"
+   ...
+}
+```
+
 ### LoginScreen.js:
 ```javascript
 import React, { useState } from "react";
