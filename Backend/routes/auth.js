@@ -32,7 +32,6 @@ const upload = multer({ storage: storage });
 // Ruta para registrar usuarios
 router.post(
   "/register",
-  upload.single("avatar"), // Middleware de multer para subir un avatar a Cloudinary
   [
     check("name", "El nombre es obligatorio").not().isEmpty(),
     check("user_name", "El nombre de usuario es obligatorio").not().isEmpty(),
@@ -48,12 +47,9 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { name, user_name, email, password } = req.body;
-    let avatar = null;
+    const { name, user_name, email, profile_image,password } = req.body;
 
-    if (req.file) {
-      avatar = req.file.path; // La URL de Cloudinary se encuentra en req.file.path
-    }
+
 
     try {
       // Verificar si el usuario ya existe
@@ -68,7 +64,7 @@ router.post(
         user_name,
         email,
         password,
-        profile_image: avatar, // Guardar la URL de Cloudinary en el campo profile_image
+        profile_image: profile_image, // Guardar la URL de Cloudinary en el campo profile_image
       });
 
       // Encriptar la contraseña
@@ -81,7 +77,7 @@ router.post(
       // Generar el token JWT
       const payload = {
         user: {
-          id: user.id,
+          id: user._id,
         },
       };
 

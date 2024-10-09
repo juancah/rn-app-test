@@ -10,7 +10,7 @@ import {
   Alert,
   TouchableOpacity,
 } from "react-native";
-//import * as ImagePicker from "expo-image-picker";
+import * as ImagePicker from "expo-image-picker";
 //import { Image } from "expo-image";
 
 //mport { Image } from "expo-image";
@@ -18,6 +18,14 @@ import { Image, ImageBackground } from "expo-image";
 import { BASE_URL } from "../config"; // Importa la URL desde config.js
 
 import axios from "axios";
+
+const convertImageToBlob = async (imagePath) => {
+  const response = await fetch(imagePath);
+  const blob = await response.blob();
+  return blob;
+
+};
+
 
 const RegisterScreen = ({ navigation }) => {
   const [name, setName] = useState("");
@@ -49,9 +57,11 @@ const RegisterScreen = ({ navigation }) => {
       aspect: [1, 1],
       quality: 1,
     });
+    console.log('aa',pickerResult)
 
-    if (!pickerResult.cancelled) {
-      setAvatar(pickerResult.uri);
+    if (!pickerResult.cancelled && (Array.isArray(pickerResult.assets) && pickerResult.assets?.length > 0) ) {
+      const asset = pickerResult.assets[0]
+      setAvatar(asset.uri);
     }
   };
 
@@ -67,21 +77,12 @@ const RegisterScreen = ({ navigation }) => {
 
       // Mostrar en consola los datos que se están enviando
       console.log("Datos enviados:", userData);
-
       if (avatar) {
         const formData = new FormData();
-        const filename = avatar.split("/").pop();
-        const match = /\.(\w+)$/.exec(filename);
-        const fileType = match ? `image/${match[1]}` : `image`;
-
-        formData.append("avatar", {
-          uri: avatar,
-          name: filename,
-          type: fileType,
-        });
-
+        const blob = await convertImageToBlob(avatar) //convertir uri a blob porque el server no lo reconocia como imagen al codigo de antes
+        formData.append("avatar",blob);
         const res = await axios.post(
-          `${BASE_URL}api/upload`, // Cambia según tu IP local
+          `${BASE_URL}/api/upload`, // Cambia según tu IP local
           formData,
           {
             headers: {

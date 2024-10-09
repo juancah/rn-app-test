@@ -44,7 +44,6 @@ const storage = new CloudinaryStorage({
   params: {
     folder: "avatars", // Carpeta en Cloudinary para almacenar avatares
     format: async (req, file) => "jpg", // El formato de la imagen
-    public_id: (req, file) => file.originalname.split(".")[0], // Nombre del archivo en Cloudinary
   },
 });
 
@@ -54,11 +53,12 @@ const upload = multer({ storage });
 // Ruta para subir imágenes a Cloudinary
 app.post("/api/upload", upload.single("avatar"), (req, res) => {
   try {
+    if(!req.file)throw new Error('No se encontro ninguna imagen')
     // Devuelve la URL de la imagen subida
     res.json({ imageUrl: req.file.path });
   } catch (error) {
     console.error("Error al subir la imagen a Cloudinary:", error);
-    res.status(500).json({ message: "Error al subir la imagen" });
+    res.status(500).json({ message: "Error al subir la imagen" ,error});
   }
 });
 
